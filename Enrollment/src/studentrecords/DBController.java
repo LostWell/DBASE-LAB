@@ -134,8 +134,8 @@ public class DBController {
         sql = "select * from students inner join enroll using(idno) where classcode="+(classCode)+";";//sql statement for query
         return statement.executeQuery(sql);//executes the given sql statement to the database
    }
-    //retrieves the information of each class in a given class (Henry)
-    public ResultSet getSubjClass(int classCode) throws Exception{//
+    //retrieves the information of each class in a given subject (Henry)
+    public ResultSet getSubjClass(int classCode) throws Exception{
 	statement = connection.createStatement();//creates a connection to the database in the server
 	sql = "select * from class inner join subject using(subjid) where subjid="+(classCode)+";";//sql statement for query
 	return statement.executeQuery(sql);//executes the given sql statement to the database
