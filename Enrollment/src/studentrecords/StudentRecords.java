@@ -135,7 +135,7 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 2:
-		        		//To-Do
+		        		printStudents();
 		        		break;
 		        		
 		        	case 3:
@@ -202,7 +202,7 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 2:
-		        		//To-Do
+		        		printSubjects();
 		        		break;
 		        		
 		        	case 3:
@@ -270,7 +270,7 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 2:
-		        		//To-Do
+		        		printClass();
 		        		break;
 		        		
 		        	case 3:
@@ -334,7 +334,7 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 2:
-		        		//To-Do
+		        		printEnroll();
 		        		break;
 		        		
 		        	case 3:
