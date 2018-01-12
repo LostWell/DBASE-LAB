@@ -139,7 +139,32 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 3:
-		        		//To-Do
+		        	System.out.println("+----------------------------+");
+		    	        System.out.println("|         Update Account        |");
+		    	        System.out.println("+----------------------------+");
+		    	        System.out.print("Enter ID number: ");
+		    	        int idno = Integer.parseInt(kb.nextLine());
+		    	        System.out.print("Enter last name: ");
+		    	        String lname = kb.nextLine();
+		    	        System.out.print("Enter first name: ");
+		    	        String fname = kb.nextLine();
+		    	        System.out.print("Enter middle initial: ");
+		    	        String midInitial = kb.nextLine();
+		    	        System.out.print("Enter gender: ");
+		    	        String gender = kb.nextLine();
+		    	        System.out.print("Enter contact number: ");
+		    	        String contactNumber = kb.nextLine();
+		    	        System.out.print("Enter email: ");
+		    	        String email = kb.nextLine();
+		    	        
+		    	        //account creation
+		        		controller.updateAccount(idno, lname, fname, midInitial, gender, contactNumber, email);
+		        		
+		        		//prompt for finished process
+		    	        System.out.println("-------Updated-------");
+		    	        System.out.println("Press enter to continue...");
+		    	        kb.nextLine();
+		        		break;
 		        		break;
 		        		
 		        	case 4:
@@ -206,7 +231,25 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 3:
-		        		//To-Do
+		        	System.out.println("+----------------------------+");
+		    	        System.out.println("|         Update Subject        |");
+		    	        System.out.println("+----------------------------+");
+		    	        System.out.print("Enter subject ID: ");
+		    	        String id = kb.nextLine();
+		    	        System.out.print("Enter subject title: ");
+		    	        String title = kb.nextLine();
+		    	        System.out.print("Enter number of units: ");
+		    	        int units = Integer.parseInt(kb.nextLine());
+		    	        
+		    	        //subject update
+		        	controller.updateSubject(id, title, units);
+		        		
+		        	//prompt for finished process
+		    	        System.out.println("-------Updated-------");
+		    	        System.out.println("Press enter to continue...");
+		    	        kb.nextLine();
+		        		break;
+		        		
 		        		break;
 		        		
 		        	case 4:
@@ -274,9 +317,28 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 3:
-		        		//To-Do
-		        		break;
-		        		
+				//updateClass();
+				System.out.println("+----------------------------+");
+				System.out.println("|         Update Class       |");
+				System.out.println("+----------------------------+");
+				System.out.println("Enter class code: ");
+				String code = kb.nextLine();
+				System.out.print("Enter scheduled time: ");
+				String time = kb.nextLine();
+				System.out.print("Enter scheduled days: ");
+				String days = kb.nextLine();
+				System.out.print("Enter subject ID: ");
+				String id = kb.nextLine();
+
+				//class update
+				controller.updateClass(code, time, days, id);
+
+				//prompt for finished process
+				System.out.println("-------Updated-------");
+				System.out.println("Press enter to continue...");
+				kb.nextLine();
+				break; 
+					
 		        	case 4:
 		        		//To-Do
 		        		break;
@@ -338,8 +400,25 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 3:
-		        		//To-Do
-		        		break;
+		        	//update Info
+				System.out.println("+----------------------------+");
+				System.out.println("|         Update Info        |");
+				System.out.println("+----------------------------+");
+				System.out.println("Enter class code: ");
+				String code = kb.nextLine();
+				System.out.print("Enter ID Number: ");
+				int id no = Integer.parseInt(kb.nextLine());
+				System.out.println ("Enter the date: " );
+				String date = kb.nextLine();
+
+				//class update
+				controller.updateInfo(code, id no, date);
+
+				//prompt for finished process
+				System.out.println("-------Updated-------");
+				System.out.println("Press enter to continue...");
+				kb.nextLine();
+				break;
 		        		
 		        	case 4:
 		        		//To-Do
