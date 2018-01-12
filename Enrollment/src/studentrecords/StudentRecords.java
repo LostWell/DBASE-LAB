@@ -6,10 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StudentRecords {
-	// DBController Object
-	static DBController controller = new DBController(); 
+     static Scanner scn = new Scanner(System.in); //--- we (Mitz) added this---//
+     static DBController control; //---we (Mitz) added this---//
+
+    // DBController Object
+    static DBController controller = new DBController(); 
 	
-	// Database URL
+    // Database URL
     static final String DBASE_URL = "jdbc:mysql://localhost/records?autoReconnect=true&useSSL=false";
     
     // Database credentials
@@ -24,6 +27,7 @@ public class StudentRecords {
 	static Date date = new Date();
 	
 	public static void main(String[] args){
+		control = new DBController(); //---we (Mitz) added this----//
 		try {
 		controller.dbaseConnect(DBASE_URL,USERNAME,PASSWORD);
 		mainMenu();
@@ -224,8 +228,8 @@ public class StudentRecords {
 	
 	public static void classesMenu(int choice){
 		do {
-			System.out.println();
-			System.out.println("+----------------------------+");
+		System.out.println();
+		System.out.println("+----------------------------+");
 	        System.out.println("|   M E N U  O P T I O N S   |");
 	        System.out.println("+----------------------------+");
 	        System.out.println("| 0. Back                    |");
@@ -291,8 +295,8 @@ public class StudentRecords {
 	
 	public static void enrollmentMenu(int choice){
 		do {
-			System.out.println();
-			System.out.println("+----------------------------+");
+		System.out.println();
+		System.out.println("+----------------------------+");
 	        System.out.println("|   M E N U  O P T I O N S   |");
 	        System.out.println("+----------------------------+");
 	        System.out.println("| 0. Back                    |");
