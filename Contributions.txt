@@ -23,5 +23,12 @@ Mitz Mitchie  - Added deleteClass method in DBController.
               - Created an instatiation of Scanner object in StudentRecords.java.
               - Created a static DBController control in StudentRecords.java.
               - Added control = new DBController(); in the main method.
+	      -SQL (database)
+	      -Delete Function
+	      -Update Function
+	      
 Henry Arellano 	-Created the classStudent (DBController.java) and getClassStudent (Studentrecords.java) methods (Extra Feature)
 		-Created the subjClass (DBController.java) and getSubjClass (Studentrecords.java) methods (Extra Feature)
+		
+Alessndra Ramos - Added the delete account, delete subject, delete class options(switch case) in StudentRecords.java.
+		- Created the Subject table.xlsx (basis for the schema) 
