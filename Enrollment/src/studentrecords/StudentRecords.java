@@ -168,8 +168,13 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 4:
-		        		//To-Do
-		        		break;
+		        		System.out.println("Enter the ID number of an account you wish to delete: ");
+                        		idno = Integer.parseInt(kb.nextLine());
+                        		controller.deleteAccount(idno);
+
+                        		System.out.println("-----Account successfully deleted-----");
+                        		System.out.println("Press enter to continue...");
+                       			break;
 	        	}
 	        } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
 	        	System.out.println("ID number already exists");
@@ -253,7 +258,12 @@ public class StudentRecords {
 		        		break;
 		        		
 		        	case 4:
-		        		//To-Do
+		        		System.out.println("Enter the subject ID of the subject you wish to delete: ");
+                        		String subjid = kb.nextLine();
+                        		controller.deleteSubject(subjid);
+
+                        		System.out.println("-----The subject was successfully deleted-----");
+                        		System.out.println("Press enter to continue...");
 		        		break;
 	        	}
 	        } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
@@ -340,7 +350,12 @@ public class StudentRecords {
 				break; 
 					
 		        	case 4:
-		        		//To-Do
+		        		System.out.println("Enter the classcode you wish to delete: ");
+                        		String classcode = kb.nextLine();
+                        		controller.deleteClass(classcode);
+
+                        		System.out.println("-----" +classcode+ " was successfully deleted-----");
+                        		System.out.println("Press enter to continue...");
 		        		break;
 	        	}
 	        } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
