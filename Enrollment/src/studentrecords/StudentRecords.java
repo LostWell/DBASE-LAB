@@ -193,7 +193,7 @@ public class StudentRecords {
 
 	private static void updateAccount() throws Exception {
 		System.out.println("+----------------------------+");
-		System.out.println("|         Update Account        |");
+		System.out.println("|       Update Account       |");
 		System.out.println("+----------------------------+");
 		System.out.print("Enter ID number: ");
 		int idno = Integer.parseInt(kb.nextLine());
@@ -220,6 +220,9 @@ public class StudentRecords {
 	}
 
 	private static void deleteAccount() throws Exception {
+		System.out.println("+----------------------------+");
+		System.out.println("|       Delete Account       |");
+		System.out.println("+----------------------------+");
 		System.out.println("Enter the ID number of an account you wish to delete: ");
 		int idno = Integer.parseInt(kb.nextLine());
 		controller.deleteAccount(idno);
@@ -327,7 +330,7 @@ public class StudentRecords {
 	
 	private static void updateSubject() throws Exception {
 		System.out.println("+----------------------------+");
-		System.out.println("|         Update Subject        |");
+		System.out.println("|       Update Subject       |");
 		System.out.println("+----------------------------+");
 		System.out.print("Enter subject ID: ");
 		String id = kb.nextLine();
@@ -346,6 +349,9 @@ public class StudentRecords {
 	}
 
 	private static void deleteSubject() throws Exception {
+		System.out.println("+----------------------------+");
+		System.out.println("|       Delete Subject       |");
+		System.out.println("+----------------------------+");
 		System.out.println("Enter the subject ID of the subject you wish to delete: ");
 		String subjid = kb.nextLine();
 		controller.deleteSubject(subjid);
@@ -476,6 +482,9 @@ public class StudentRecords {
 	}
 
 	private static void deleteClass() throws Exception {
+		System.out.println("+----------------------------+");
+		System.out.println("|        Delete Class        |");
+		System.out.println("+----------------------------+");
 		System.out.println("Enter the classcode you wish to delete: ");
 		String classcode = kb.nextLine();
 		controller.deleteClass(classcode);
