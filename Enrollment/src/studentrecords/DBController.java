@@ -115,7 +115,7 @@ public class DBController {
         sql = "SELECT * FROM students;";
         return statement.executeQuery(sql);
     }
-    public ResultSet getClass() throws Exception {
+    public ResultSet getClasses() throws Exception {
         statement = connection.createStatement();
         sql = "SELECT * FROM class;";
         return statement.executeQuery(sql);
@@ -181,14 +181,14 @@ public class DBController {
     // Gerichelle
     public void updateInfo(String code,
                            int idno,
-                           Date date) throws Exception {
+                           String date) throws Exception {
         sql = "UPDATE info"
             + "(code, idno, date)"
             + "values (?,?,?)";
         ps = connection.prepareStatement(sql);
         ps.setString(1, code);
         ps.setInt(2, idno);
-        ps.setDate(3, date);
+        ps.setString(3, date);
         ps.executeUpdate(sql);
     }
 	
