@@ -177,14 +177,13 @@ public class StudentRecords {
 					String lastname = rs.getString(2);
 					String firstname = rs.getString("firstname");
 					String midInitial = rs.getString("midInitial");
-					String gender = filterNull(rs.getString("gender"));
+					String gender = rs.getString("gender");
 					String contactno = rs.getString("contactno");
 					String email = rs.getString("email");
 					System.out.printf("%-4d %-15s %-20s %-15s %-10s %-15s %-10s %-25s%n",
 							row++, idno, lastname, firstname, midInitial, gender, contactno, email);
 				}
 			}		
-			printDivider();
 			System.out.println();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
@@ -314,14 +313,13 @@ public class StudentRecords {
 						"SubjID","Title","Units");
 				int row = 1;
 				while (rs.next()) {          
-					String subjid = filterNull(rs.getString("subjid"));
-					String title = filterNull(rs.getString("title"));
-					String units = filterNull(rs.getString("units"));
+					String subjid = rs.getString("subjid");
+					String title = rs.getString("title");
+					String units = rs.getString("units");
 					System.out.printf("%-4d %-15s %-20s %-15s %n",
 							row++, subjid, title, units);
 				}
 			}		
-			printDivider();
 			System.out.println();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
@@ -443,15 +441,14 @@ public class StudentRecords {
 						"Classcode","Time","Day","SubjId");
 				int row = 1;
 				while (rs.next()) {          
-					String classcode = filterNull(rs.getString("classocde"));
-					String time = filterNull(rs.getString("time"));
-					String day = filterNull(rs.getString("day"));
-					String time = filterNull(rs.getString("time"));
+					String classcode = rs.getString("classocde");
+					String time = rs.getString("time");
+					String day = rs.getString("day");
+					String time = rs.getString("time");
 					System.out.printf("%-4d %-15s %-20s %-15s %n",
 							row++, classcode, time, day, subjid);
 				}
 			}		
-			printDivider();
 			System.out.println();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
@@ -573,14 +570,13 @@ public class StudentRecords {
 						"Classcode","IDNo","Date Submitted");
 				int row = 1;
 				while (rs.next()) {          
-					String classcode = filterNull(rs.getString("classocde"));
-					String idno = filterNull(rs.getString("idno"));
-					String datesubmitted = filterNull(rs.getString("datesubmitted"));
+					String classcode = rs.getString("classocde");
+					String idno = rs.getString("idno");
+					String datesubmitted = rs.getString("datesubmitted");
 					System.out.printf("%-4d %-15s %-20s %-15s %n",
 							row++, classcode, idno, datesubmitted);
 				}
 			}		
-			printDivider();
 			System.out.println();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
