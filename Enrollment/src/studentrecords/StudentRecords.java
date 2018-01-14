@@ -79,6 +79,7 @@ public class StudentRecords {
 
 		} while(choice != 5);
 		kb.close();
+		controller.close();
 	}
 
 	public static void accountsMenu(int choice){
