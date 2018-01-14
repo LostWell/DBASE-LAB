@@ -12,7 +12,8 @@ Tyus Fablatin - Creates the old main program (StudentRecords.java).
 
 Janina Miranda - Modified and populated the initial database.
 	       - Constructed two Read functionalities in the DBController.java.
-	       - Implemented two Read functionalities in the StudentRecords.java. 
+	       - Implemented two Read functionalities in the StudentRecords.java.
+	       - Contributed in debugging for the read functionality. 
 
 
 Albert Baterina - Added 2 delete functions in DBController.java
