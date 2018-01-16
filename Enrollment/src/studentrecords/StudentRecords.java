@@ -444,7 +444,8 @@ public class StudentRecords {
 					String classcode = rs.getString("classocde");
 					String time = rs.getString("time");
 					String day = rs.getString("day");
-					String time = rs.getString("time");
+					String t = rs.getString("time");
+                                        String subjid = rs.getString("subjid");
 					System.out.printf("%-4d %-15s %-20s %-15s %n",
 							row++, classcode, time, day, subjid);
 				}
