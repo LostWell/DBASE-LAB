@@ -433,7 +433,7 @@ public class StudentRecords {
 	
 	public static void printClass(){
 		try {
-			ResultSet rs = controller.getClass();
+			ResultSet rs = controller.getClasses();
 			if (getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
@@ -444,7 +444,6 @@ public class StudentRecords {
 					String classcode = rs.getString("classocde");
 					String time = rs.getString("time");
 					String day = rs.getString("day");
-					String t = rs.getString("time");
                                         String subjid = rs.getString("subjid");
 					System.out.printf("%-4d %-15s %-20s %-15s %n",
 							row++, classcode, time, day, subjid);
