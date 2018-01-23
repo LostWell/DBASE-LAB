@@ -26,7 +26,7 @@ public class DBController {
 			String contactno, 
 			String email) throws Exception {
 
-		sql = "insert into students "
+		sql = "INSERT INTO students "
 				+ "(idno, lastname, firstname, midInitial, gender, contactno, email) "
 				+ "values (?,?,?,?,?,?,?)";
 		ps = connection.prepareStatement(sql);
@@ -44,7 +44,7 @@ public class DBController {
 			String title,
 			int units) throws Exception {
 
-		sql = "insert into subject "
+		sql = "INSERT INTO subject "
 				+ "(subjid, title, units) "
 				+ "values (?,?,?)";
 		ps = connection.prepareStatement(sql);
@@ -58,7 +58,7 @@ public class DBController {
 			String time,
 			String day,
 			String subjid) throws Exception {
-		sql = "insert into class "
+		sql = "INSERT INTO class "
 				+ "(classcode, time, day, subjid) "
 				+ "values (?,?,?,?)";
 		ps = connection.prepareStatement(sql);
@@ -72,7 +72,7 @@ public class DBController {
 	public void createEnroll(String classcode,
 			int idno, String datesubmitted) throws Exception {
 
-		sql = "insert into enroll "
+		sql = "INSERT INTO enroll "
 				+ "(classcode, idno, datesubmitted) "
 				+ "values (?,?,?)";
 		ps = connection.prepareStatement(sql);
@@ -117,59 +117,52 @@ public class DBController {
 			String email) throws Exception {
 
 		//execute a query (update preparedStatement)
-		sql = "UPDATE account"
-				+ "(idno, lname, fname, midInitial, gender, contactNumber, email) "
-				+ "values (?,?,?,?,?,?,?)";
-		ps = connection.prepareStatement(sql);
-		ps.setInt(1, idno);
-		ps.setString(2, lname);
-		ps.setString(3, fname);
-		ps.setString(4, midInitial);
-		ps.setString(5, gender);
-		ps.setString(6, contactNumber);
-		ps.setString(7, email);
-		ps.executeUpdate(sql);
+		sql = "UPDATE students SET "
+			+ "lastname = '"+ lname +"', "
+			+ "firstname = '"+ fname +"', "
+			+ "midInitial = '"+ midInitial +"', "
+			+ "gender = '"+ gender +"', "
+			+ "contactno = '"+ contactNumber +"', "
+			+ "email = '"+ email +"' "
+			+ "WHERE idno = "+ idno;
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
 	}
 	// Gerichelle
-	public void updateSubject(String id,
+	public void updateSubject(String subjid,
 			String title,
 			int units) throws Exception {
-		sql = "UPDATE subject"
-				+ "(id, title, units)"
-				+ "values (?,?,?)";
-		ps = connection.prepareStatement(sql);
-		ps.setString(1, id);
-		ps.setString(2, title);
-		ps.setInt(3, units);
-		ps.executeUpdate(sql);
+		sql = "UPDATE subject SET "
+				+ "title = '"+ title +"', "
+				+ "units = "+ units +" "
+				+ "WHERE subjid = '"+ subjid + "'";
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
 	}  
 	//Gerichelle, Shaira
-	public void updateClass(String code, 
+	public void updateClass(String classcode, 
 			String time,
 			String days,
-			String id) throws Exception {
-		sql = "UPDATE class"
-				+ "(code, time, days,  id)"
-				+ "values (?,?,?,?,?)";
-		ps = connection.prepareStatement(sql);
-		ps.setString(1, code);
-		ps.setString(2, time);
-		ps.setString(3, days);
-		ps.setString(4, id);
-		ps.executeUpdate(sql);
+			String subjid) throws Exception {
+		sql = "UPDATE class SET "
+				+ "time = '"+ time +"', "
+				+ "days = '"+ days +"', "
+				+ "subjid = '"+ subjid +"' "
+				+ "WHERE classcode = '"+ classcode +"'";
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
 	}
 	// Gerichelle
-	public void updateInfo(String code,
-			int idno,
+	public void updateEnroll(String classcode1, 
+			String classcode2, 
+			int idno, 
 			String date) throws Exception {
-		sql = "UPDATE info"
-				+ "(code, idno, date)"
-				+ "values (?,?,?)";
-		ps = connection.prepareStatement(sql);
-		ps.setString(1, code);
-		ps.setInt(2, idno);
-		ps.setString(3, date);
-		ps.executeUpdate(sql);
+		sql = "UPDATE enroll SET "
+				+ "classcode = '"+ classcode2 +"' "
+				+ "date = '"+ date +"' "
+				+ "WHERE classcode = '"+ classcode1 +"' AND idno = "+ idno +"";
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
 	}
 
 	//-------------------------------------------Delete------------------------------------------------//

@@ -75,6 +75,11 @@ public class StudentRecords {
 			case 4:
 				enrollmentMenu(choice);
 				break;
+			case 5:
+				System.out.println("+---------------------------------+");
+				System.out.println(" Thank you for using this program");
+				System.out.println("+---------------------------------+");
+				break;
 			}
 
 		} while(choice != 5);
@@ -103,6 +108,8 @@ public class StudentRecords {
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
+				System.out.println("+----------------------------+");
+				System.out.println();
 			} while(choice < 0 || choice > 4);
 
 			try {
@@ -185,6 +192,8 @@ public class StudentRecords {
 				}
 			}		
 			System.out.println();
+			System.out.println("Press enter to continue...");
+			kb.nextLine();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
 		}
@@ -196,6 +205,7 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.print("Enter ID number: ");
 		int idno = Integer.parseInt(kb.nextLine());
+		System.out.println("+-----ENTER UPDATED INFO-----+");
 		System.out.print("Enter last name: ");
 		String lname = kb.nextLine();
 		System.out.print("Enter first name: ");
@@ -251,6 +261,8 @@ public class StudentRecords {
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
+				System.out.println("+----------------------------+");
+				System.out.println();
 			} while(choice < 0 || choice > 4);
 
 			try {
@@ -309,18 +321,20 @@ public class StudentRecords {
 			if (getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
-				System.out.printf("     %-15s %-20s %-15s %n",
+				System.out.printf("        %-15s%-100s%-8s%n",
 						"SubjID","Title","Units");
 				int row = 1;
 				while (rs.next()) {          
 					String subjid = rs.getString("subjid");
 					String title = rs.getString("title");
 					String units = rs.getString("units");
-					System.out.printf("%-4d %-15s %-20s %-15s %n",
+					System.out.printf("%-8d%-15s%-100s%-8s%n",
 							row++, subjid, title, units);
 				}
-			}		
+			}
 			System.out.println();
+			System.out.println("Press enter to continue...");
+			kb.nextLine();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
 		}
@@ -375,10 +389,12 @@ public class StudentRecords {
 				try {
 					choice = Integer.parseInt(kb.nextLine());
 				} catch (Exception e) {
-					System.out.println("error: input a valid value...");
+					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
+				System.out.println("+----------------------------+");
+				System.out.println();
 			} while(choice < 0 || choice > 4);
 			try {
 				switch (choice){
@@ -437,19 +453,21 @@ public class StudentRecords {
 			if (getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
-				System.out.printf("     %-15s %-20s %-15s %-10s %n",
+				System.out.printf("     %-12s %-20s %-10s %-15s %n",
 						"Classcode","Time","Day","SubjId");
 				int row = 1;
 				while (rs.next()) {          
-					String classcode = rs.getString("classocde");
+					String classcode = rs.getString("classcode");
 					String time = rs.getString("time");
 					String day = rs.getString("day");
-                                        String subjid = rs.getString("subjid");
-					System.out.printf("%-4d %-15s %-20s %-15s %n",
+                    String subjid = rs.getString("subjid");
+					System.out.printf("%-4d %-12s %-20s %-10s %-15s %n",
 							row++, classcode, time, day, subjid);
 				}
-			}		
+			}
 			System.out.println();
+			System.out.println("Press enter to continue...");
+			kb.nextLine();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
 		}
@@ -511,6 +529,8 @@ public class StudentRecords {
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
+				System.out.println("+----------------------------+");
+				System.out.println();
 			} while(choice < 0 || choice > 4);
 			try {
 				switch (choice){
@@ -570,7 +590,7 @@ public class StudentRecords {
 						"Classcode","IDNo","Date Submitted");
 				int row = 1;
 				while (rs.next()) {          
-					String classcode = rs.getString("classocde");
+					String classcode = rs.getString("classcode");
 					String idno = rs.getString("idno");
 					String datesubmitted = rs.getString("datesubmitted");
 					System.out.printf("%-4d %-15s %-20s %-15s %n",
@@ -578,6 +598,8 @@ public class StudentRecords {
 				}
 			}		
 			System.out.println();
+			System.out.println("Press enter to continue...");
+			kb.nextLine();
 		} catch (Exception e) {
 			System.err.println("error: " + e.getClass() + "\n" + e.getMessage());
 		}
@@ -586,16 +608,18 @@ public class StudentRecords {
 	private static void updateInfo() throws Exception {
 		//update Info
 		System.out.println("+----------------------------+");
-		System.out.println("|         Update Info        |");
+		System.out.println("|     Update Enroll Date     |");
 		System.out.println("+----------------------------+");
-		System.out.println("Enter class code: ");
-		String code = kb.nextLine();
+		System.out.println("Enter old class code: ");
+		String code1 = kb.nextLine();
+		System.out.println("Enter new class code: ");
+		String code2 = kb.nextLine();
 		System.out.print("Enter ID Number: ");
 		int idno = Integer.parseInt(kb.nextLine());
 		date = new Date();
 
 		//class update
-		controller.updateInfo(code, idno, dateFormat.format(date));
+		controller.updateEnroll(code1, code2, idno, dateFormat.format(date));
 
 		//prompt for finished process
 		System.out.println("-------Updated-------");
@@ -603,22 +627,23 @@ public class StudentRecords {
 		kb.nextLine();
 	}
 	
-	
+	/*
 	
 	//--------------------EXTRA FEATURES--------------------//
 	//asks for class code and retrieves students - Henry
-	public String classStudent(){
+	public ResultSet classStudent(){
 		System.out.print("Enter Class Code: ");
 		int code= Integer.parseInt(kb.nextLine());
 		return getClassStudent(code);
 	}
-	//asks for subjectID and retrives class Schedules -Henry
-	public String SubjectClass(){
+	//asks for subjectID and retrieves class Schedules -Henry
+	public ResultSet SubjectClass(){
 		System.out.print("Enter Subject Code: ");
 		int code = Integer.parseInt(kb.nextLine());
 		return getSubjClass(code);
 	}
 	
+	*/
 	
 	//----------------------READ FUNCTIONALITY------------------------//
 	private static int getResTotal(ResultSet rs) throws Exception {
@@ -628,11 +653,6 @@ public class StudentRecords {
 		rs.beforeFirst();
 		return count;    	
 	}
-
-	
-
-	
-
-	
 	//--------------------------------------------------------------------//
+	
 }

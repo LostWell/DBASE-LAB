@@ -41,7 +41,7 @@ CREATE TABLE `class` (
 
 LOCK TABLES `class` WRITE;
 /*!40000 ALTER TABLE `class` DISABLE KEYS */;
-INSERT INTO `class` VALUES ('9329','11:00 AM-12:30 AM','WF','CS 311A'),('9330A','03:00 PM-04:00 PM','WS','ICS 311'),('9330B','02:30 PM-04:00 PM','TF','ICS 311L'),('9331A','01:00 PM-02:00 PM','TF','ICS 312'),('9331B','04:00 PM-05:30 PM','WS','ICS 312L'),('9332','08:00 AM-09:00 AM','TTHS','ENGL 7'),('9333','11:00 AM-12:00 PM','TF','IT 311'),('9334A','09:00 AM-10:00 AM','WS','ICS 321'),('9334B','09:30 AM-11:00 AM','TTHS','ICS 321L'),('9341','11:00 AM-12:30 PM','WS','CS 311A'),('9358','03:00 PM - 04:00 PM','WF','ENGL 7'),('9360A','01:00 PM-02:00 PM','TF','ICS 312'),('9360B','04:00 PM-05:30 PM','WF','ICS 312L'),('9362','02:30 PM-04:00 PM','TTHS','IT 311'),('9381','02:00 PM-03:00 PM','WF','PHYS 2B');
+INSERT INTO `class` VALUES ('9329','11:00 AM-12:30 AM','WF','CS 311A'),('9330A','03:00 PM-04:00 PM','WS','ICS 311'),('9330B','02:30 PM-04:00 PM','TF','ICS 311L'),('9331A','01:00 PM-02:00 PM','TF','ICS 312'),('9331B','04:00 PM-05:30 PM','WS','ICS 312L'),('9332','08:00 AM-09:00 AM','TTHS','ENGL 7'),('9333','11:00 AM-12:00 PM','TF','IT 311'),('9334A','09:00 AM-10:00 AM','WS','ICS 321'),('9334B','09:30 AM-11:00 AM','TTHS','ICS 321L'),('9341','11:00 AM-12:30 PM','WS','CS 311A'),('9358','03:00 PM-04:00 PM','WF','ENGL 7'),('9360A','01:00 PM-02:00 PM','TF','ICS 312'),('9360B','04:00 PM-05:30 PM','WF','ICS 312L'),('9362','02:30 PM-04:00 PM','TTHS','IT 311'),('9381','02:00 PM-03:00 PM','WF','PHYS 2B');
 /*!40000 ALTER TABLE `class` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +123,7 @@ CREATE TABLE `subject` (
 
 LOCK TABLES `subject` WRITE;
 /*!40000 ALTER TABLE `subject` DISABLE KEYS */;
-INSERT INTO `subject` VALUES ('CS 311A','Object Oriented Programming\r\n',3),('ENGL 7','Technical Writing\r\n',3),('ICS 311','Operating Systems\r\n',2),('ICS 311L','Operating Systems\r\n',1),('ICS 312','Programming Applications\r\n',2),('ICS 312L','Programming Applications\r\n',1),('ICS 321','Database Management Systems\r\n',2),('ICS 321L','Database Management Systems\r\n',1),('IT 311','Systems Analysis and Design\r\n',3),('PHYS 2B','Electromagnetism and Electricity\r\n',3);
+INSERT INTO `subject` VALUES ('CS 311A','Object Oriented Programming',3),('ENGL 7','Technical Writing',3),('ICS 311','Operating Systems',2),('ICS 311L','Operating Systems',1),('ICS 312','Programming Applications',2),('ICS 312L','Programming Applications',1),('ICS 321','Database Management Systems',2),('ICS 321L','Database Management Systems',1),('IT 311','Systems Analysis and Design',3),('PHYS 2B','Electromagnetism and Electricity',3);
 /*!40000 ALTER TABLE `subject` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -136,4 +136,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-09  1:01:36
+-- Dump completed on 2018-01-23 21:50:22
