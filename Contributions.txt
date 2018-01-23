@@ -5,6 +5,8 @@ Louel Lagasca - Added the "CREATE" function for the DBController.java program
               - Revised the already established database (records.sql)
               - Revised the main program (StudentRecords.java)
               - Created new repository for the INC requirements
+              - Overhauled the Update Functions
+              - Fixed Minor issues with the Read Functions
 
 Tyus Fablatin - Creates the old main program (StudentRecords.java).
               - Creates the program (DBController.java).
