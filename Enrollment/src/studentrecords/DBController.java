@@ -186,6 +186,14 @@ public class DBController {
 		ps.setString(1, classcode);
 		ps.executeUpdate();
 	}
+	
+	public void unenroll(String classcode, int idno) throws Exception { // Louel did this part
+		sql = "delete FROM enroll where classcode = ? AND idno = ?; ";
+		ps = connection.prepareStatement(sql);
+		ps.setString(1, classcode);
+		ps.setInt(2, idno);
+		ps.executeUpdate();
+	}
 
 	//-------------------------Extra Feature---------------------------------------------//
 	//retrieves the information of each student enrolled in a given class (Henry)
