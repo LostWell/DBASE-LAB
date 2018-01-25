@@ -7,6 +7,7 @@ Louel Lagasca - Added the "CREATE" function for the DBController.java program
               - Created new repository for the INC requirements
               - Overhauled the Update Functions
               - Fixed Minor issues with the Read Functions
+              - Added delete function for the enroll table
 
 Tyus Fablatin - Creates the old main program (StudentRecords.java).
               - Creates the program (DBController.java).
