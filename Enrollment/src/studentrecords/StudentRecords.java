@@ -53,7 +53,7 @@ public class StudentRecords {
 				try {
 					choice = Integer.parseInt(kb.nextLine());
 				} catch (Exception e) {
-					System.out.println("error: input a valid value...");
+					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
@@ -90,21 +90,23 @@ public class StudentRecords {
 	public static void accountsMenu(int choice){
 		do {
 			System.out.println();
-			System.out.println("+----------------------------+");
-			System.out.println("|   M E N U  O P T I O N S   |");
-			System.out.println("+----------------------------+");
-			System.out.println("| 0. Back                    |");
-			System.out.println("| 1. Add Account             |");
-			System.out.println("| 2. Check Account           |");
-			System.out.println("| 3. Update Account          |");
-			System.out.println("| 4. Delete Account          |");
-			System.out.println("+----------------------------+");
+			System.out.println("+------------------------------+");
+			System.out.println("|    M E N U  O P T I O N S    |");
+			System.out.println("+------------------------------+");
+			System.out.println("| 0. Back                      |");
+			System.out.println("| 1. Add Account               |");
+			System.out.println("| 2. Display All Accounts      |");
+			System.out.println("| 3. Update Account            |");
+			System.out.println("| 4. Delete Account            |");
+			System.out.println("| 5. Display Enrolled Subjects |");
+			System.out.println("| 6. Display Finished Subjects |");
+			System.out.println("+------------------------------+");
 			do {
 				System.out.print("Enter your choice: ");
 				try {
 					choice = Integer.parseInt(kb.nextLine());
 				} catch (Exception e) {
-					System.out.println("error: input a valid value...");
+					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
@@ -129,9 +131,15 @@ public class StudentRecords {
 				case 4:
 					deleteAccount();
 					break;
+				case 5:
+					//To-Do
+					break;
+				case 6:
+					//To-Do
+					break;
 				}
 			} catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
-				System.out.println("ID number already exists");
+				System.out.println("------Invalid value------");
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
@@ -173,7 +181,7 @@ public class StudentRecords {
 	public static void printStudents(){
 		try {
 			ResultSet rs = controller.getStudents();
-			if (getResTotal(rs) == 0) {
+			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {      			
 				System.out.printf("     %-15s %-20s %-15s %-10s %-15s %-10s %-25s%n",
@@ -232,12 +240,12 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.println("|       Delete Account       |");
 		System.out.println("+----------------------------+");
-		System.out.println("Enter the ID number of an account you wish to delete: ");
+		System.out.print("Enter ID number: ");
 		int idno = Integer.parseInt(kb.nextLine());
 		controller.deleteAccount(idno);
-
-		System.out.println("-----Account successfully deleted-----");
+		
 		System.out.println("Press enter to continue...");
+		kb.nextLine();
 	}
 
 	public static void subjectsMenu(int choice){
@@ -257,7 +265,7 @@ public class StudentRecords {
 				try {
 					choice = Integer.parseInt(kb.nextLine());
 				} catch (Exception e) {
-					System.out.println("error: input a valid value...");
+					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
@@ -284,7 +292,7 @@ public class StudentRecords {
 					break;
 				}
 			} catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
-				System.out.println("Subject ID already exists");
+				System.out.println("------Invalid value------");
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
@@ -305,9 +313,15 @@ public class StudentRecords {
 		String title = kb.nextLine();
 		System.out.print("Enter number of units: ");
 		int units = Integer.parseInt(kb.nextLine());
+		System.out.print("Enter prerequisite subject ID: ");
+		String prerequisite = kb.nextLine();
+		System.out.print("Enter year: ");
+		int year = Integer.parseInt(kb.nextLine());
+		System.out.print("Enter semester: ");
+		int semester = Integer.parseInt(kb.nextLine());
 
 		//subject creation
-		controller.createSubject(id, title, units);
+		controller.createSubject(id, title, units, prerequisite, year, semester);
 
 		//prompt for finished process
 		System.out.println("-------Process Finished-------");
@@ -318,18 +332,21 @@ public class StudentRecords {
 	public static void printSubjects(){
 		try {
 			ResultSet rs = controller.getSubjects();
-			if (getResTotal(rs) == 0) {
+			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
-				System.out.printf("        %-15s%-100s%-8s%n",
-						"SubjID","Title","Units");
+				System.out.printf("        %-15s%-100s%-8s%-15s%-10d%-10d%n",
+						"SubjID","Title","Units", "Prerequisite", "Year", "Semester");
 				int row = 1;
 				while (rs.next()) {          
 					String subjid = rs.getString("subjid");
 					String title = rs.getString("title");
 					String units = rs.getString("units");
-					System.out.printf("%-8d%-15s%-100s%-8s%n",
-							row++, subjid, title, units);
+					String prerequisite = rs.getString("prerequisite");
+					int year = rs.getInt("year");
+					int semester = rs.getInt("semester");
+					System.out.printf("%-8d%-15s%-100s%-8s%-15s%-10d%-10d%n",
+							row++, subjid, title, units, prerequisite, year, semester);
 				}
 			}
 			System.out.println();
@@ -350,9 +367,15 @@ public class StudentRecords {
 		String title = kb.nextLine();
 		System.out.print("Enter number of units: ");
 		int units = Integer.parseInt(kb.nextLine());
+		System.out.print("Enter prerequisite subject ID: ");
+		String prerequisite = kb.nextLine();
+		System.out.print("Enter year: ");
+		int year = Integer.parseInt(kb.nextLine());
+		System.out.print("Enter semester: ");
+		int semester = Integer.parseInt(kb.nextLine());
 
 		//subject update
-		controller.updateSubject(id, title, units);
+		controller.updateSubject(id, title, units, prerequisite, year, semester);
 
 		//prompt for finished process
 		System.out.println("-------Updated-------");
@@ -364,12 +387,12 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.println("|       Delete Subject       |");
 		System.out.println("+----------------------------+");
-		System.out.println("Enter the subject ID of the subject you wish to delete: ");
+		System.out.print("Enter subject ID: ");
 		String subjid = kb.nextLine();
 		controller.deleteSubject(subjid);
 
-		System.out.println("-----The subject was successfully deleted-----");
 		System.out.println("Press enter to continue...");
+		kb.nextLine();
 	}
 
 	public static void classesMenu(int choice){
@@ -415,7 +438,7 @@ public class StudentRecords {
 					break;
 				}
 			} catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
-				System.out.println("Class Code already exists");
+				System.out.println("------Invalid value------");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -438,7 +461,7 @@ public class StudentRecords {
 		System.out.print("Enter subject ID: ");
 		String id = kb.nextLine();
 
-		//subject creation
+		//class creation
 		controller.createClass(code, time, days, id);
 
 		//prompt for finished process
@@ -450,7 +473,7 @@ public class StudentRecords {
 	public static void printClass(){
 		try {
 			ResultSet rs = controller.getClasses();
-			if (getResTotal(rs) == 0) {
+			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
 				System.out.printf("     %-12s %-20s %-10s %-15s %n",
@@ -461,8 +484,8 @@ public class StudentRecords {
 					String time = rs.getString("time");
 					String day = rs.getString("day");
                     String subjid = rs.getString("subjid");
-					System.out.printf("%-4d %-12s %-20s %-10s %-15s %n",
-							row++, classcode, time, day, subjid);
+					System.out.printf("%-4d %-12s %-15s %-20s %-10s %n",
+							row++, classcode, subjid, time, day);
 				}
 			}
 			System.out.println();
@@ -500,12 +523,12 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.println("|        Delete Class        |");
 		System.out.println("+----------------------------+");
-		System.out.println("Enter the classcode you wish to delete: ");
+		System.out.print("Enter classcode: ");
 		String classcode = kb.nextLine();
 		controller.deleteClass(classcode);
 
-		System.out.println("-----" +classcode+ " was successfully deleted-----");
 		System.out.println("Press enter to continue...");
+		kb.nextLine();
 	}
 
 	public static void enrollmentMenu(int choice){
@@ -525,7 +548,7 @@ public class StudentRecords {
 				try {
 					choice = Integer.parseInt(kb.nextLine());
 				} catch (Exception e) {
-					System.out.println("error: input a valid value...");
+					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
 				}
@@ -547,11 +570,11 @@ public class StudentRecords {
 					break;
 
 				case 4:
-					//To-Do
+					unenroll();
 					break;
 				}
 			} catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
-				System.out.println("Entered information does not exists");
+				System.out.println("------Invalid value------");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -565,36 +588,43 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.println("|           Enroll           |");
 		System.out.println("+----------------------------+");
-		System.out.print("Enter class code: ");
-		String code = kb.nextLine();
 		System.out.print("Enter ID number: ");
 		int idno = Integer.parseInt(kb.nextLine());
-		date = new Date();
-
-		//subject creation
-		controller.createEnroll(code, idno, dateFormat.format(date));
-
+		System.out.print("Enter class code: ");
+		String code = kb.nextLine();
+		if (controller.checkList(idno, code)) {
+			date = new Date();
+			//enroll
+			controller.createEnroll(code, idno, dateFormat.format(date), "In Progress");
+			System.out.println("-------Process Finished-------");
+			System.out.println("Press enter to continue...");
+			kb.nextLine();
+		} else {
+			System.out.println("-------Prerequisite not completed-------");
+			System.out.println("Press enter to continue...");
+			kb.nextLine();
+		}
+		
 		//prompt for finished process
-		System.out.println("-------Process Finished-------");
-		System.out.println("Press enter to continue...");
-		kb.nextLine();
+		
 	}
 	
 	public static void printEnroll(){
 		try {
 			ResultSet rs = controller.getEnroll();
-			if (getResTotal(rs) == 0) {
+			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
 				System.out.printf("     %-15s %-20s %-15s %n",
-						"Classcode","IDNo","Date Submitted");
+						"Classcode","ID No","Date Submitted", "Status");
 				int row = 1;
 				while (rs.next()) {          
 					String classcode = rs.getString("classcode");
 					String idno = rs.getString("idno");
 					String datesubmitted = rs.getString("datesubmitted");
-					System.out.printf("%-4d %-15s %-20s %-15s %n",
-							row++, classcode, idno, datesubmitted);
+					String status = rs.getString("status");
+					System.out.printf("%-4d %-15s %-20s %-15s %-15s %n",
+							row++, classcode, idno, datesubmitted, status);
 				}
 			}		
 			System.out.println();
@@ -608,21 +638,41 @@ public class StudentRecords {
 	private static void updateInfo() throws Exception {
 		//update Info
 		System.out.println("+----------------------------+");
-		System.out.println("|     Update Enroll Date     |");
+		System.out.println("|     Update Enroll Info     |");
 		System.out.println("+----------------------------+");
 		System.out.println("Enter old class code: ");
 		String code1 = kb.nextLine();
 		System.out.println("Enter new class code: ");
 		String code2 = kb.nextLine();
+		System.out.print("Enter new status: ");
+		String status = kb.nextLine();
 		System.out.print("Enter ID Number: ");
 		int idno = Integer.parseInt(kb.nextLine());
 		date = new Date();
 
 		//class update
-		controller.updateEnroll(code1, code2, idno, dateFormat.format(date));
+		controller.updateEnroll(code1, code2, idno, dateFormat.format(date), status);
 
 		//prompt for finished process
 		System.out.println("-------Updated-------");
+		System.out.println("Press enter to continue...");
+		kb.nextLine();
+	}
+	
+	private static void unenroll() throws Exception {
+		//Prompt for input data
+		System.out.println("+----------------------------+");
+		System.out.println("|          Unenroll          |");
+		System.out.println("+----------------------------+");
+		System.out.print("Enter ID number: ");
+		int idno = Integer.parseInt(kb.nextLine());
+		System.out.print("Enter class code: ");
+		String code = kb.nextLine();
+
+		//subject deletion
+		controller.unenroll(code, idno);
+
+		//prompt for finished process
 		System.out.println("Press enter to continue...");
 		kb.nextLine();
 	}
@@ -644,15 +694,5 @@ public class StudentRecords {
 	}
 	
 	*/
-	
-	//----------------------READ FUNCTIONALITY------------------------//
-	private static int getResTotal(ResultSet rs) throws Exception {
-		int count = 0;
-		rs.last();
-		count = rs.getRow();
-		rs.beforeFirst();
-		return count;    	
-	}
-	//--------------------------------------------------------------------//
 	
 }

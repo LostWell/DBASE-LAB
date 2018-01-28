@@ -42,19 +42,25 @@ public class DBController {
 
 	public void createSubject(String subjid,
 			String title,
-			int units) throws Exception {
+			int units, 
+			String prerequisite, 
+			int year, 
+			int semester) throws Exception {
 
 		sql = "INSERT INTO subject "
-				+ "(subjid, title, units) "
-				+ "values (?,?,?)";
+				+ "(subjid, title, units, prerequisite, year, semester) "
+				+ "values (?,?,?,?,?,?)";
 		ps = connection.prepareStatement(sql);
 		ps.setString(1, subjid);
 		ps.setString(2, title);
 		ps.setInt(3, units);
+		ps.setString(4, prerequisite);
+		ps.setInt(5, year);
+		ps.setInt(6, semester);
 		ps.executeUpdate();
 	}
 
-	public void createClass(String classcode,
+	public void createClass(String classcode, 
 			String time,
 			String day,
 			String subjid) throws Exception {
@@ -63,22 +69,23 @@ public class DBController {
 				+ "values (?,?,?,?)";
 		ps = connection.prepareStatement(sql);
 		ps.setString(1, classcode);
-		ps.setString(2, time);
-		ps.setString(3, day);
-		ps.setString(4, subjid);
+		ps.setString(2, subjid);
+		ps.setString(3, time);
+		ps.setString(4, day);
 		ps.executeUpdate();
 	}
 
 	public void createEnroll(String classcode,
-			int idno, String datesubmitted) throws Exception {
+			int idno, String datesubmitted, String status) throws Exception {
 
 		sql = "INSERT INTO enroll "
-				+ "(classcode, idno, datesubmitted) "
-				+ "values (?,?,?)";
+				+ "(classcode, idno, datesubmitted, status) "
+				+ "values (?,?,?,?)";
 		ps = connection.prepareStatement(sql);
 		ps.setString(1, classcode);
 		ps.setInt(2, idno);
 		ps.setString(3, datesubmitted);
+		ps.setString(4, status);
 		ps.executeUpdate();
 	}
 
@@ -86,23 +93,23 @@ public class DBController {
 	//-------------------READ FUNCTIONALITY-----------------------------------------
 	public ResultSet getSubjects() throws Exception {
 		statement = connection.createStatement();
-		sql = "SELECT * FROM subject;";
+		sql = "SELECT * FROM subject ORDER BY YEAR, SEMESTER, SUBJID;";
 		return statement.executeQuery(sql);
 	}
 
 	public ResultSet getStudents() throws Exception {
 		statement = connection.createStatement();
-		sql = "SELECT * FROM students;";
+		sql = "SELECT * FROM students ORDER BY lastname, firstname;";
 		return statement.executeQuery(sql);
 	}
 	public ResultSet getClasses() throws Exception {
 		statement = connection.createStatement();
-		sql = "SELECT * FROM class;";
+		sql = "SELECT * FROM class ORDER BY classcode;";
 		return statement.executeQuery(sql);
 	}
 	public ResultSet getEnroll() throws Exception {
 		statement = connection.createStatement();
-		sql = "SELECT * FROM enroll;";
+		sql = "SELECT * FROM enroll ORDER BY idno, classcode, datesubmitted;";
 		return statement.executeQuery(sql);
 	}
 
@@ -131,9 +138,15 @@ public class DBController {
 	// Gerichelle
 	public void updateSubject(String subjid,
 			String title,
-			int units) throws Exception {
+			int units, 
+			String prerequisite, 
+			int year, 
+			int semester) throws Exception {
 		sql = "UPDATE subject SET "
 				+ "title = '"+ title +"', "
+				+ "prerequisite = '"+ prerequisite +"', "
+				+ "year = '"+ year +"', "
+				+ "semester = '"+ semester +"', "
 				+ "units = "+ units +" "
 				+ "WHERE subjid = '"+ subjid + "'";
 		statement = connection.createStatement();
@@ -156,9 +169,10 @@ public class DBController {
 	public void updateEnroll(String classcode1, 
 			String classcode2, 
 			int idno, 
-			String date) throws Exception {
+			String date, String status) throws Exception {
 		sql = "UPDATE enroll SET "
 				+ "classcode = '"+ classcode2 +"' "
+				+ "status = '"+ status +"' "
 				+ "date = '"+ date +"' "
 				+ "WHERE classcode = '"+ classcode1 +"' AND idno = "+ idno +"";
 		statement = connection.createStatement();
@@ -167,46 +181,94 @@ public class DBController {
 
 	//-------------------------------------------Delete------------------------------------------------//
 	public void deleteAccount(int idno) throws Exception { // Albert did this part
-		sql = "delete FROM account WHERE idno = ?; ";
-		ps = connection.prepareStatement(sql);
-		ps.setInt(1, idno);
-		ps.executeUpdate();
+		sql = "delete FROM students WHERE idno = "+idno;
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
+		if(statement.executeUpdate(sql) == 0) {
+			System.out.println("-----Row does not exists-----");
+		} else {
+			System.out.println("-----Account successfully deleted-----");
+		}
 	}
 
 	public void deleteSubject(String subjid)throws Exception { // Mitz Did this part
-		sql = "delete FROM subjects WHERE subjid = ?; ";
-		ps = connection.prepareStatement(sql);
-		ps.setString(1, subjid);
-		ps.executeUpdate(sql);
+		sql = "delete FROM subject WHERE subjid = '"+ subjid +"'";
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
+		if(statement.executeUpdate(sql) == 0) {
+			System.out.println("-----Row does not exists-----");
+		} else {
+			System.out.println("-----Successfully deleted "+ subjid +"-----");
+		}
 	}
 
 	public void deleteClass(String classcode) throws Exception { // Albert did this part
-		sql = "delete FROM class where classcode = ?; ";
-		ps = connection.prepareStatement(sql);
-		ps.setString(1, classcode);
-		ps.executeUpdate();
+		sql = "delete FROM class where classcode = '"+ classcode +"'";
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
+		if(statement.executeUpdate(sql) == 0) {
+			System.out.println("-----Row does not exists-----");
+		} else {
+			System.out.println("-----Successfully deleted " + classcode + "-----");
+		}
 	}
 	
 	public void unenroll(String classcode, int idno) throws Exception { // Louel did this part
-		sql = "delete FROM enroll where classcode = ? AND idno = ?; ";
-		ps = connection.prepareStatement(sql);
-		ps.setString(1, classcode);
-		ps.setInt(2, idno);
-		ps.executeUpdate();
+		sql = "delete FROM enroll where classcode = '"+ classcode +"'" + "AND idno = '"+ idno +"'";
+		statement = connection.createStatement();
+		if(statement.executeUpdate(sql) == 0) {
+			System.out.println("-----Row does not exists-----");
+		} else {
+
+			System.out.println("-----Unenrolled "+ idno +" from " + classcode + "-----");
+		}
 	}
 
 	//-------------------------Extra Feature---------------------------------------------//
 	//retrieves the information of each student enrolled in a given class (Henry)
-	public ResultSet getClassStudent(int classCode) throws Exception {
+	public ResultSet getClassStudent(String classCode) throws Exception {
 		statement = connection.createStatement();//creates a connection to the database in the server
 		sql = "select * from students inner join enroll using(idno) where classcode="+(classCode)+";";//sql statement for query
 		return statement.executeQuery(sql);//executes the given sql statement to the database
 	}
 	//retrieves the information of each class in a given subject (Henry)
-	public ResultSet getSubjClass(int classCode) throws Exception{
+	public ResultSet getSubjClass(String classCode) throws Exception{
 		statement = connection.createStatement();//creates a connection to the database in the server
 		sql = "select * from class inner join subject using(subjid);";//sql statement for query
 		return statement.executeQuery(sql);//executes the given sql statement to the database
+	}
+	
+	public boolean checkList(int idno, String classcode) {
+		try {
+			statement = connection.createStatement();
+			sql = "select status from enroll where idno = '"+idno+"' and classcode = "
+					+ "(select classcode from subject where subjid = "
+					+ "(select prerequisite from subject where subjid = "
+					+ "(select subjid from class where classcode = '"+classcode+"')))";
+			resultSet = statement.executeQuery(sql);
+			if (getResTotal(resultSet) == 0) {
+				return false;
+			} else {
+				while (resultSet.next()) {      
+					if(resultSet.getString("status").equalsIgnoreCase("Not Taken")) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getClass() + "\n" + e.getMessage());
+		}
+		return false;
+	}
+	
+	public static int getResTotal(ResultSet rs) throws Exception {
+		int count = 0;
+		rs.last();
+		count = rs.getRow();
+		rs.beforeFirst();
+		return count;    	
 	}
 	
 	public void close() {
