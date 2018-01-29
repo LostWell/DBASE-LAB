@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class DBController {
-	private Connection connection;
-	private Statement statement;
-	private PreparedStatement ps;
-	private ResultSet resultSet;
-	private String sql;
+	private static Connection connection;
+	private static Statement statement;
+	private static PreparedStatement ps;
+	private static ResultSet resultSet;
+	private static String sql;
 
 	public void dbaseConnect(String url, String user, String pass) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
@@ -75,7 +75,7 @@ public class DBController {
 		ps.executeUpdate();
 	}
 
-	public void createEnroll(String classcode,
+	public static void createEnroll(String classcode,
 			int idno, String datesubmitted, String status) throws Exception {
 
 		sql = "INSERT INTO enroll "
@@ -261,6 +261,26 @@ public class DBController {
 			System.err.println("Error: " + e.getClass() + "\n" + e.getMessage());
 		}
 		return false;
+	}
+	
+	public static void enrollPerYear(int idno, int year, int semester){
+		try {
+			for(int x = 1; x <= year; x++) {
+				for(int y = 1; y <= semester; y++) {
+					sql = "select classcode from class where subjid in (select subjid from subject where year = "+year+" and semester = "+semester+" ORDER BY YEAR, SEMESTER, SUBJID);";
+					resultSet = statement.executeQuery(sql);
+					while(resultSet.next()) {
+						if (x < year && y < semester) {
+							createEnroll(resultSet.getString("classcode"), idno, StudentRecords.dateFormat.format(StudentRecords.date), "Taken");
+						} else {
+							createEnroll(resultSet.getString("classcode"), idno, StudentRecords.dateFormat.format(StudentRecords.date), "In Progress");
+						}
+					}
+				}
+			}
+		} catch(Exception e){
+			
+		}
 	}
 	
 	public static int getResTotal(ResultSet rs) throws Exception {

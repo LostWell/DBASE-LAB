@@ -538,10 +538,11 @@ public class StudentRecords {
 			System.out.println("|   M E N U  O P T I O N S   |");
 			System.out.println("+----------------------------+");
 			System.out.println("| 0. Back                    |");
-			System.out.println("| 1. Enroll                  |");
-			System.out.println("| 2. Check Enrollment        |");
-			System.out.println("| 3. Update Info             |");
-			System.out.println("| 4. Unenroll                |");
+			System.out.println("| 1. Enroll Per Class        |");
+			System.out.println("| 2. Enroll Per Year         |");
+			System.out.println("| 3. Display Enrollment      |");
+			System.out.println("| 4. Update Info             |");
+			System.out.println("| 5. Unenroll                |");
 			System.out.println("+----------------------------+");
 			do {
 				System.out.print("Enter your choice: ");
@@ -562,14 +563,18 @@ public class StudentRecords {
 					break;
 
 				case 2:
+					enrollYear();
+					break;
+					
+				case 3:
 					printEnroll();
 					break;
 
-				case 3:
+				case 4:
 					updateInfo();
 					break;
 
-				case 4:
+				case 5:
 					unenroll();
 					break;
 				}
@@ -586,7 +591,7 @@ public class StudentRecords {
 	private static void enroll() throws Exception {
 		//Prompt for input data
 		System.out.println("+----------------------------+");
-		System.out.println("|           Enroll           |");
+		System.out.println("|        Enroll Class        |");
 		System.out.println("+----------------------------+");
 		System.out.print("Enter ID number: ");
 		int idno = Integer.parseInt(kb.nextLine());
@@ -595,7 +600,7 @@ public class StudentRecords {
 		if (controller.checkList(idno, code)) {
 			date = new Date();
 			//enroll
-			controller.createEnroll(code, idno, dateFormat.format(date), "In Progress");
+			DBController.createEnroll(code, idno, dateFormat.format(date), "In Progress");
 			System.out.println("-------Process Finished-------");
 			System.out.println("Press enter to continue...");
 			kb.nextLine();
@@ -605,8 +610,24 @@ public class StudentRecords {
 			kb.nextLine();
 		}
 		
-		//prompt for finished process
+	}
+	
+	private static void enrollYear() throws Exception {
+		//Prompt for input data
+		System.out.println("+----------------------------+");
+		System.out.println("|       Enroll Per Year      |");
+		System.out.println("+----------------------------+");
+		System.out.print("Enter ID number: ");
+		int idno = Integer.parseInt(kb.nextLine());
+		System.out.print("Enter ID number: ");
+		int year = Integer.parseInt(kb.nextLine());
+		System.out.print("Enter ID number: ");
+		int semester = Integer.parseInt(kb.nextLine());
 		
+		DBController.enrollPerYear(idno, year, semester);
+		System.out.println("-------Process Finished-------");
+		System.out.println("Press enter to continue...");
+		kb.nextLine();
 	}
 	
 	public static void printEnroll(){
