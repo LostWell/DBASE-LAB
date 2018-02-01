@@ -250,9 +250,15 @@ public class StudentRecords {
 
 	public static void printSchedule(int choice){
 		try {
-			System.out.println("+----------------------------+");
-			System.out.println("|       Display Schedule     |");
-			System.out.println("+----------------------------+");
+			if (choice == 5) {
+				System.out.println("+----------------------------+");
+				System.out.println("|       Display Schedule     |");
+				System.out.println("+----------------------------+");
+			} else if (choice == 6) {
+				System.out.println("+----------------------------+");
+				System.out.println("|  Display Finished Subjects |");
+				System.out.println("+----------------------------+");
+			}
 			System.out.print("Enter ID number: ");
 			int idno = Integer.parseInt(kb.nextLine());
 			ResultSet rs = controller.displayEnrolled(idno, choice);
