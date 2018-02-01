@@ -7,15 +7,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class DBController {
-	private static Connection connection;
-	private static Statement statement;
-	private static PreparedStatement ps;
-	private static ResultSet resultSet;
-	private static String sql;
+	private Connection connection;
+	private Statement statement;
+	private PreparedStatement ps;
+	private String sql;
 
 	public void dbaseConnect(String url, String user, String pass) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		connection = DriverManager.getConnection(url, user, pass);
+		statement = connection.createStatement();
 	}
 
 	public void createAccount(int idno, 
@@ -75,7 +75,7 @@ public class DBController {
 		ps.executeUpdate();
 	}
 
-	public static void createEnroll(String classcode,
+	public void createEnroll(String classcode,
 			int idno, String datesubmitted, String status) throws Exception {
 
 		sql = "INSERT INTO enroll "
@@ -227,35 +227,35 @@ public class DBController {
 	//-------------------------Extra Feature---------------------------------------------//
 	//retrieves the information of each student enrolled in a given class (Henry)
 	public ResultSet getClassStudent(String classCode) throws Exception {
-		statement = connection.createStatement();//creates a connection to the database in the server
-		sql = "select * from students inner join enroll using(idno) where classcode="+(classCode)+";";//sql statement for query
-		return statement.executeQuery(sql);//executes the given sql statement to the database
+		statement = connection.createStatement(); //creates a connection to the database in the server
+		sql = "select idno, lastname, firstname, midInitial, gender, contactno, email from students inner join enroll using(idno) where classcode = "+classCode+" AND status = \"In Progress\";"; //sql statement for query
+		return statement.executeQuery(sql); //executes the given sql statement to the database
 	}
 	//retrieves the information of each class in a given subject (Henry)
-	public ResultSet getSubjClass(String classCode) throws Exception{
-		statement = connection.createStatement();//creates a connection to the database in the server
-		sql = "select * from class inner join subject using(subjid);";//sql statement for query
-		return statement.executeQuery(sql);//executes the given sql statement to the database
+	public ResultSet getSubjClass(String subjid) throws Exception{
+		statement = connection.createStatement(); //creates a connection to the database in the server
+		sql = "select classcode, time, day from class inner join subject using(subjid) where subjid = "+subjid+";";//sql statement for query
+		return statement.executeQuery(sql); //executes the given sql statement to the database
+	}
+	
+	public ResultSet getSubjectInfo(String classcode) throws Exception{
+		statement = connection.createStatement(); //creates a connection to the database in the server
+		sql = "select subjid, title, prerequisite from subject inner join class using (subjid) where classcode ="+classcode+";";
+		return statement.executeQuery(sql); //executes the given sql statement to the database
 	}
 	
 	public boolean checkList(int idno, String classcode) {
 		try {
 			statement = connection.createStatement();
 			sql = "select status from enroll where idno = '"+idno+"' and classcode = "
-					+ "(select classcode from subject where subjid = "
+					+ "(select classcode from class where subjid = "
 					+ "(select prerequisite from subject where subjid = "
 					+ "(select subjid from class where classcode = '"+classcode+"')))";
-			resultSet = statement.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sql);
 			if (getResTotal(resultSet) == 0) {
 				return false;
 			} else {
-				while (resultSet.next()) {      
-					if(resultSet.getString("status").equalsIgnoreCase("Not Taken")) {
-						return false;
-					} else {
-						return true;
-					}
-				}
+				return true;
 			}
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getClass() + "\n" + e.getMessage());
@@ -263,24 +263,47 @@ public class DBController {
 		return false;
 	}
 	
-	public static void enrollPerYear(int idno, int year, int semester){
+	public void enrollPerYear(int idno, int year, int semester){
 		try {
-			for(int x = 1; x <= year; x++) {
-				for(int y = 1; y <= semester; y++) {
-					sql = "select classcode from class where subjid in (select subjid from subject where year = "+year+" and semester = "+semester+" ORDER BY YEAR, SEMESTER, SUBJID);";
-					resultSet = statement.executeQuery(sql);
-					while(resultSet.next()) {
-						if (x < year && y < semester) {
-							createEnroll(resultSet.getString("classcode"), idno, StudentRecords.dateFormat.format(StudentRecords.date), "Taken");
-						} else {
-							createEnroll(resultSet.getString("classcode"), idno, StudentRecords.dateFormat.format(StudentRecords.date), "In Progress");
-						}
+			sql = "select idno from students where idno = " + idno + ";";
+			ResultSet resultSet = statement.executeQuery(sql);
+			if (getResTotal(resultSet) == 0) {
+				System.out.println("-----Student does not exist-----");
+			} else {
+				sql = "select classcode from class where subjid in (select subjid from subject where year < "+year+" ORDER BY YEAR, SEMESTER, SUBJID);";
+				resultSet = statement.executeQuery(sql);
+				while(resultSet.next()) {
+						createEnroll(resultSet.getString("classcode"), idno, StudentRecords.dateFormat.format(StudentRecords.date), "Taken");
+				}	
+				
+				sql = "select classcode, semester from class inner join (select subject.subjid, semester from subject where year = "+year+" and semester <= "+semester+") a using(subjid);";
+				resultSet = statement.executeQuery(sql);
+				while(resultSet.next()) {	
+					if (resultSet.getInt("semester") < semester) {
+						createEnroll(resultSet.getString("classcode"), idno, StudentRecords.dateFormat.format(StudentRecords.date), "Taken");
+					} else {
+						createEnroll(resultSet.getString("classcode"), idno, StudentRecords.dateFormat.format(StudentRecords.date), "In Progress");
 					}
 				}
+				System.out.println("-------Process Finished-------");
+				System.out.println("Press enter to continue...");
+				StudentRecords.kb.nextLine();
 			}
 		} catch(Exception e){
-			
+			System.out.println("-----Error-----");
+			e.printStackTrace();
 		}
+	}
+	
+	public ResultSet displayEnrolled(int idno, int choice) throws Exception{
+		statement = connection.createStatement();
+		if (choice == 5) {
+			sql = "SELECT classcode, subjid, title, time, day FROM enroll INNER JOIN class USING (classcode) INNER JOIN subject USING (subjid) WHERE idno = " + idno +" AND status = \"In Progress\";";
+			
+		} else {
+			sql = "SELECT classcode, subjid, title, time, day FROM enroll INNER JOIN class USING (classcode) INNER JOIN subject USING (subjid) WHERE idno = " + idno +" AND status = \"Taken\";";
+		}
+		return statement.executeQuery(sql);
 	}
 	
 	public static int getResTotal(ResultSet rs) throws Exception {
@@ -293,9 +316,6 @@ public class DBController {
 	
 	public void close() {
 		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
 			if (statement != null) {
 				statement.close();
 			}
