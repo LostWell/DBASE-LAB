@@ -12,6 +12,8 @@ Louel Lagasca - Added the "CREATE" function for the DBController.java program
               - Created the enroll per year Feature
               - Created the display schedule Feature
               - Created the display finished subjects Feature
+              - Debugged and finalized the project
+              - Deligated tasks and collated artifacts from the members
 
 Tyus Fablatin - Creates the old main program (StudentRecords.java).
               - Creates the program (DBController.java).
