@@ -64,15 +64,9 @@ public class DBController {
 			String time,
 			String day,
 			String subjid) throws Exception {
-		sql = "INSERT INTO class "
-				+ "(classcode, time, day, subjid) "
-				+ "values (?,?,?,?)";
-		ps = connection.prepareStatement(sql);
-		ps.setString(1, classcode);
-		ps.setString(2, subjid);
-		ps.setString(3, time);
-		ps.setString(4, day);
-		ps.executeUpdate();
+		sql = "INSERT INTO class (classcode, subjid, time, day) VALUES ('"+classcode+"', '"+subjid+"', '"+time+"', '"+day+"');";
+		statement = connection.createStatement();
+		statement.executeUpdate(sql);
 	}
 
 	public void createEnroll(String classcode,
@@ -155,25 +149,26 @@ public class DBController {
 	//Gerichelle, Shaira
 	public void updateClass(String classcode, 
 			String time,
-			String days,
+			String day,
 			String subjid) throws Exception {
 		sql = "UPDATE class SET "
 				+ "time = '"+ time +"', "
-				+ "days = '"+ days +"', "
+				+ "day = '"+ day +"', "
 				+ "subjid = '"+ subjid +"' "
 				+ "WHERE classcode = '"+ classcode +"'";
 		statement = connection.createStatement();
 		statement.executeUpdate(sql);
 	}
 	// Gerichelle
+	
 	public void updateEnroll(String classcode1, 
 			String classcode2, 
 			int idno, 
 			String date, String status) throws Exception {
 		sql = "UPDATE enroll SET "
-				+ "classcode = '"+ classcode2 +"' "
-				+ "status = '"+ status +"' "
-				+ "date = '"+ date +"' "
+				+ "classcode = '"+ classcode2 +"', "
+				+ "status = '"+ status +"', "
+				+ "datesubmitted = '"+ date +"' "
 				+ "WHERE classcode = '"+ classcode1 +"' AND idno = "+ idno +"";
 		statement = connection.createStatement();
 		statement.executeUpdate(sql);
@@ -183,7 +178,6 @@ public class DBController {
 	public void deleteAccount(int idno) throws Exception { // Albert did this part
 		sql = "delete FROM students WHERE idno = "+idno;
 		statement = connection.createStatement();
-		statement.executeUpdate(sql);
 		if(statement.executeUpdate(sql) == 0) {
 			System.out.println("-----Row does not exists-----");
 		} else {
@@ -194,7 +188,6 @@ public class DBController {
 	public void deleteSubject(String subjid)throws Exception { // Mitz Did this part
 		sql = "delete FROM subject WHERE subjid = '"+ subjid +"'";
 		statement = connection.createStatement();
-		statement.executeUpdate(sql);
 		if(statement.executeUpdate(sql) == 0) {
 			System.out.println("-----Row does not exists-----");
 		} else {
@@ -205,7 +198,6 @@ public class DBController {
 	public void deleteClass(String classcode) throws Exception { // Albert did this part
 		sql = "delete FROM class where classcode = '"+ classcode +"'";
 		statement = connection.createStatement();
-		statement.executeUpdate(sql);
 		if(statement.executeUpdate(sql) == 0) {
 			System.out.println("-----Row does not exists-----");
 		} else {
@@ -247,18 +239,28 @@ public class DBController {
 	public boolean checkList(int idno, String classcode) {
 		try {
 			statement = connection.createStatement();
-			sql = "select status from enroll where idno = '"+idno+"' and classcode = "
-					+ "(select classcode from class where subjid = "
-					+ "(select prerequisite from subject where subjid = "
-					+ "(select subjid from class where classcode = '"+classcode+"')))";
+			sql = "select prerequisite from subject where subjid = "
+					+ "(select subjid from class where classcode = '"+classcode+"')";
 			ResultSet resultSet = statement.executeQuery(sql);
-			if (getResTotal(resultSet) == 0) {
-				return false;
-			} else {
+			resultSet.first();
+			resultSet.getString(1);
+			if (resultSet.wasNull()) {
 				return true;
+			} else {
+				sql = "select status from enroll where idno = '"+idno+"' and classcode = "
+						+ "(select classcode from class where subjid = "
+						+ "(select prerequisite from subject where subjid = "
+						+ "(select subjid from class where classcode = '"+classcode+"')))";
+				resultSet = statement.executeQuery(sql);
+				if (getResTotal(resultSet) == 0) {
+					return false;
+				} else {
+					return true;
+				}
 			}
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getClass() + "\n" + e.getMessage());
+			e.printStackTrace();
 		}
 		return false;
 	}

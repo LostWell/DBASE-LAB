@@ -56,6 +56,7 @@ public class StudentRecords {
 					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
+					choice = 0;
 				}
 			} while(choice < 1 || choice > 5);
 
@@ -93,13 +94,13 @@ public class StudentRecords {
 			System.out.println("+------------------------------+");
 			System.out.println("|    M E N U  O P T I O N S    |");
 			System.out.println("+------------------------------+");
-			System.out.println("| 0. Back                      |");
-			System.out.println("| 1. Add Account               |");
-			System.out.println("| 2. Display All Accounts      |");
-			System.out.println("| 3. Update Account            |");
-			System.out.println("| 4. Delete Account            |");
-			System.out.println("| 5. Display Enrolled Subjects |");
-			System.out.println("| 6. Display Finished Subjects |");
+			System.out.println("| 1. Back                      |");
+			System.out.println("| 2. Add Account               |");
+			System.out.println("| 3. Display All Accounts      |");
+			System.out.println("| 4. Update Account            |");
+			System.out.println("| 5. Delete Account            |");
+			System.out.println("| 6. Display Enrolled Subjects |");
+			System.out.println("| 7. Display Finished Subjects |");
 			System.out.println("+------------------------------+");
 			do {
 				System.out.print("Enter your choice: ");
@@ -109,33 +110,34 @@ public class StudentRecords {
 					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
+					choice = 0;
 				}
 				System.out.println("+----------------------------+");
 				System.out.println();
-			} while(choice < 0 || choice > 6);
+			} while(choice < 1 || choice > 7);
 
 			try {
 				switch (choice){
-				case 1:
+				case 2:
 					addAccount();
 					break;
 
-				case 2:
+				case 3:
 					printStudents();
 					break;
 
-				case 3:
+				case 4:
 					updateAccount();
 					break;
 
-				case 4:
-					deleteAccount();
-					break;
 				case 5:
-					printSchedule(5);
+					deleteAccount();
 					break;
 				case 6:
 					printSchedule(6);
+					break;
+				case 7:
+					printSchedule(7);
 					break;
 				}
 			} catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
@@ -144,7 +146,7 @@ public class StudentRecords {
 				e2.printStackTrace();
 			}
 
-		} while (choice != 0);
+		} while (choice != 1);
 	}
 
 //-------------------Account Methods--------------------------
@@ -184,10 +186,11 @@ public class StudentRecords {
 			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {      			
+				System.out.println();
 				System.out.printf("     %-15s %-20s %-15s %-10s %-15s %-10s %-25s%n",
 						"IDNo","LastName","FirstName","MidInit", "Gender", "ContactNo","Email");
 				int row = 1;
-				while (rs.next()) {          
+				while (rs.next()) {
 					String idno = rs.getString(1);
 					String lastname = rs.getString(2);
 					String firstname = rs.getString("firstname");
@@ -250,11 +253,11 @@ public class StudentRecords {
 
 	public static void printSchedule(int choice){
 		try {
-			if (choice == 5) {
+			if (choice == 6) {
 				System.out.println("+----------------------------+");
 				System.out.println("|       Display Schedule     |");
 				System.out.println("+----------------------------+");
-			} else if (choice == 6) {
+			} else if (choice == 7) {
 				System.out.println("+----------------------------+");
 				System.out.println("|  Display Finished Subjects |");
 				System.out.println("+----------------------------+");
@@ -263,9 +266,11 @@ public class StudentRecords {
 			int idno = Integer.parseInt(kb.nextLine());
 			ResultSet rs = controller.displayEnrolled(idno, choice);
 			if (DBController.getResTotal(rs) == 0) {
+				System.out.println();
 				System.out.println("Error: no records found!!!");
 			} else {   		
-				System.out.printf("        %-15s%-15s%-100s%-20%-15s%n",
+				System.out.println();
+				System.out.printf("        %-15s%-15s%-80s%-20s%-15s%n",
 						"Class Code","Subject ID","title", "Time", "Days");
 				int row = 1;
 				while (rs.next()) {   
@@ -274,7 +279,7 @@ public class StudentRecords {
 					String title = rs.getString("title");
 					String time = rs.getString("time");
 					String day = rs.getString("time");
-					System.out.printf("%-8d%-15s%-15s%-100s%-20%-15s%n",
+					System.out.printf("%-8d%-15s%-15s%-80s%-20s%-15s%n",
 							row++, classcode, subjid, title, time, day);
 				}
 			}
@@ -292,11 +297,11 @@ public class StudentRecords {
 			System.out.println("+----------------------------+");
 			System.out.println("|   M E N U  O P T I O N S   |");
 			System.out.println("+----------------------------+");
-			System.out.println("| 0. Back                    |");
-			System.out.println("| 1. Add Subject             |");
-			System.out.println("| 2. Check Subject           |");
-			System.out.println("| 3. Update Subject          |");
-			System.out.println("| 4. Delete Subject          |");
+			System.out.println("| 1. Back                    |");
+			System.out.println("| 2. Add Subject             |");
+			System.out.println("| 3. Check Subject           |");
+			System.out.println("| 4. Update Subject          |");
+			System.out.println("| 5. Delete Subject          |");
 			System.out.println("+----------------------------+");
 			do {
 				System.out.print("Enter your choice: ");
@@ -306,26 +311,27 @@ public class StudentRecords {
 					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
+					choice = 0;
 				}
 				System.out.println("+----------------------------+");
 				System.out.println();
-			} while(choice < 0 || choice > 4);
+			} while(choice < 1 || choice > 5);
 
 			try {
 				switch (choice){
-				case 1:
+				case 2:
 					addSubject();
 					break;
 
-				case 2:
+				case 3:
 					printSubjects();
 					break;
 
-				case 3:
+				case 4:
 					updateSubject();
 					break;
 
-				case 4:
+				case 5:
 					deleteSubject();
 					break;
 				}
@@ -334,7 +340,7 @@ public class StudentRecords {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-		} while (choice != 0);
+		} while (choice != 1);
 
 	}
 
@@ -373,7 +379,8 @@ public class StudentRecords {
 			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
-				System.out.printf("        %-15s%-100s%-8s%-15s%-10d%-10d%n",
+				System.out.println();
+				System.out.printf("        %-15s%-80s%-8s%-15s%-10s%-10s%n",
 						"SubjID","Title","Units", "Prerequisite", "Year", "Semester");
 				int row = 1;
 				while (rs.next()) {          
@@ -383,7 +390,7 @@ public class StudentRecords {
 					String prerequisite = rs.getString("prerequisite");
 					int year = rs.getInt("year");
 					int semester = rs.getInt("semester");
-					System.out.printf("%-8d%-15s%-100s%-8s%-15s%-10d%-10d%n",
+					System.out.printf("%-8d%-15s%-80s%-8s%-15s%-10d%-10d%n",
 							row++, subjid, title, units, prerequisite, year, semester);
 				}
 			}
@@ -401,6 +408,7 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.print("Enter subject ID: ");
 		String id = kb.nextLine();
+		System.out.println("+-----ENTER UPDATED INFO-----+");
 		System.out.print("Enter subject title: ");
 		String title = kb.nextLine();
 		System.out.print("Enter number of units: ");
@@ -439,12 +447,12 @@ public class StudentRecords {
 			System.out.println("+--------------------------------------------+");
 			System.out.println("|           M E N U  O P T I O N S           |");
 			System.out.println("+--------------------------------------------+");
-			System.out.println("| 0. Back                                    |");
-			System.out.println("| 1. Add Class                               |");
-			System.out.println("| 2. Display All Classes                     |");
-			System.out.println("| 3. Display Enrolled Students in a Class    |");
-			System.out.println("| 4. Update Class                            |");
-			System.out.println("| 5. Delete Class                            |");
+			System.out.println("| 1. Back                                    |");
+			System.out.println("| 2. Add Class                               |");
+			System.out.println("| 3. Display All Classes                     |");
+			System.out.println("| 4. Display Enrolled Students in a Class    |");
+			System.out.println("| 5. Update Class                            |");
+			System.out.println("| 6. Delete Class                            |");
 			System.out.println("+--------------------------------------------+");
 			do {
 				System.out.print("Enter your choice: ");
@@ -454,38 +462,40 @@ public class StudentRecords {
 					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
+					choice = 0;
 				}
 				System.out.println("+----------------------------+");
 				System.out.println();
-			} while(choice < 0 || choice > 5);
+			} while(choice < 1 || choice > 6);
 			try {
 				switch (choice){
-				case 1:
+				case 2:
 					addClass();
 					break;
 
-				case 2:
+				case 3:
 					printClass();
 					break;
 					
-				case 3:
+				case 4:
 					classStudent();
 					break; 
 
-				case 4:
+				case 5:
 					updateClass();
 					break; 
 
-				case 5:
+				case 6:
 					deleteClass();
 					break;
 				}
 			} catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e1) {
 				System.out.println("------Invalid value------");
+				e1.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} while (choice != 0);
+		} while (choice != 1);
 	}
 	
 	//-------------------Class Methods--------------------------
@@ -518,7 +528,8 @@ public class StudentRecords {
 			ResultSet rs = controller.getClasses();
 			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
-			} else {   		
+			} else {   
+				System.out.println();
 				System.out.printf("     %-12s %-20s %-10s %-15s %n",
 						"Classcode","Time","Day","SubjId");
 				int row = 1;
@@ -550,8 +561,9 @@ public class StudentRecords {
 			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {
+				System.out.println();
 				System.out.printf("     %-15s %-20s %-15s %-10s %-15s %-10s %-25s%n",
-						"IDNo","LastName","FirstName","MidInit", "Gender", "ContactNo","Email");
+						"IDNo","LastName","FirstName","Middle Initial", "Gender", "ContactNo","Email");
 				int row = 1;
 				while (rs.next()) {          
 					String idno = rs.getString(1);
@@ -578,8 +590,9 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.println("|         Update Class       |");
 		System.out.println("+----------------------------+");
-		System.out.println("Enter class code: ");
+		System.out.print("Enter class code: ");
 		String code = kb.nextLine();
+		System.out.println("+-----ENTER UPDATED INFO-----+");
 		System.out.print("Enter scheduled time: ");
 		String time = kb.nextLine();
 		System.out.print("Enter scheduled days: ");
@@ -614,13 +627,13 @@ public class StudentRecords {
 			System.out.println("+--------------------------------------------+");
 			System.out.println("|            M E N U  O P T I O N S          |");
 			System.out.println("+--------------------------------------------+");
-			System.out.println("| 0. Back                                    |");
-			System.out.println("| 1. Enroll Per Class                        |");
-			System.out.println("| 2. Enroll Per Year                         |");
-			System.out.println("| 3. Display Enrollment Data                 |");
-			System.out.println("| 4. Display Available Classes for a Subject |");
-			System.out.println("| 5. Update Info                             |");
-			System.out.println("| 6. Unenroll                                |");
+			System.out.println("| 1. Back                                    |");
+			System.out.println("| 2. Enroll Per Class                        |");
+			System.out.println("| 3. Enroll Per Year                         |");
+			System.out.println("| 4. Display Enrollment Data                 |");
+			System.out.println("| 5. Display Available Classes for a Subject |");
+			System.out.println("| 6. Update Info                             |");
+			System.out.println("| 7. Unenroll                                |");
 			System.out.println("+--------------------------------------------+");
 			do {
 				System.out.print("Enter your choice: ");
@@ -630,33 +643,34 @@ public class StudentRecords {
 					System.out.println("Error: input a valid value...");
 					System.out.print("Press enter key to continue...");
 					kb.nextLine();
+					choice = 0;
 				}
 				System.out.println("+----------------------------+");
 				System.out.println();
-			} while(choice < 0 || choice > 6);
+			} while(choice < 1 || choice > 7);
 			try {
 				switch (choice){
-				case 1:
+				case 2:
 					enroll();
 					break;
 
-				case 2:
+				case 3:
 					enrollYear();
 					break;
 					
-				case 3:
+				case 4:
 					printEnroll();
 					break;
 
-				case 4:
+				case 5:
 					subjectClass();
 					break;
 					
-				case 5:
+				case 6:
 					updateInfo();
 					break;
 
-				case 6:
+				case 7:
 					unenroll();
 					break;
 				}
@@ -665,7 +679,7 @@ public class StudentRecords {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} while (choice != 0);
+		} while (choice != 1);
 	}
 
 	//-------------------Enroll Methods--------------------------
@@ -715,7 +729,8 @@ public class StudentRecords {
 			if (DBController.getResTotal(rs) == 0) {
 				System.out.println("Error: no records found!!!");
 			} else {   		
-				System.out.printf("     %-15s %-20s %-15s %n",
+				System.out.println();
+				System.out.printf("     %-15s %-20s %-15s %-15s %n",
 						"Classcode","ID No","Date Submitted", "Status");
 				int row = 1;
 				while (rs.next()) {          
@@ -738,7 +753,7 @@ public class StudentRecords {
 	public static void subjectClass(){
 		try {
 			System.out.println("+--------------------------------------------+");
-			System.out.println("|  Display Available Classes for a Subject   |");
+			System.out.println("|   Display Available Classes for a Subject  |");
 			System.out.println("+--------------------------------------------+");
 			System.out.print("Enter Subject ID: ");
 			String subjid = kb.nextLine();
@@ -775,9 +790,9 @@ public class StudentRecords {
 		System.out.println("+----------------------------+");
 		System.out.println("|     Update Enroll Info     |");
 		System.out.println("+----------------------------+");
-		System.out.println("Enter old class code: ");
+		System.out.print("Enter old class code: ");
 		String code1 = kb.nextLine();
-		System.out.println("Enter new class code: ");
+		System.out.print("Enter new class code: ");
 		String code2 = kb.nextLine();
 		System.out.print("Enter new status: ");
 		String status = kb.nextLine();
